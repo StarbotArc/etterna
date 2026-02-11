@@ -68,8 +68,7 @@ struct HandSwitchMod
 		pmod = std::clamp(last_mod - decay, min_mod, max_mod);
 		last_mod = pmod;
 
-		_eml = 0;
-
+		_length = 0;
 		_nm = 0;
 		_om = 0;
 	}
@@ -139,7 +138,7 @@ struct HandSwitchMod
 	{
 		if (mitvghi.total_taps == 0)
 		{
-			return neutral;
+			return pmod;
 		}
 
 		if (_eml <= 0)
@@ -152,8 +151,8 @@ struct HandSwitchMod
 		float x = _nm * influence_external;
 		float m = (1 + std::clamp(influence_length * _length, 0.F, length_cap)) * (c + x) / std::max(_length, 1);
 
-		_value += m;
-		pmod = prop_scaler * m * prop_buffer;
+		_value = prop_scaler * m + prop_buffer;
+		_value = std::max(fastsqrt(_value), .0F);
 
 		pmod = std::clamp(_value, min_mod, max_mod);
 		last_mod = pmod;
