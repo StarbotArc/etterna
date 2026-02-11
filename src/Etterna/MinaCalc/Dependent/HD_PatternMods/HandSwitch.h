@@ -15,18 +15,18 @@ struct HandSwitchMod
 	const std::string name = "HandSwitchMod";
 
 	#pragma region params
-	float base = 0.15F;
-	float min_mod = 0.15F;
-	float max_mod = 0.75F;
+	float base = 0.6F;
+	float min_mod = 0.6F;
+	float max_mod = 1.3F;
 
-	float decay = 0.2F;
+	float decay = 0.1F;
 
-	float prop_buffer = 0.15F;
-	float prop_scaler = 0.5F;
+	float prop_buffer = 0.0F;
+	float prop_scaler = 1.87F;
 
-	float influence_center = 0.30F;
-	float influence_external = 0.40F;
-	float influence_length = 0.01F;
+	float influence_center = 0.45F;
+	float influence_external = 0.425F;
+	float influence_length = 0.1F;
 
 	float length_cap = 1.0F;
 
