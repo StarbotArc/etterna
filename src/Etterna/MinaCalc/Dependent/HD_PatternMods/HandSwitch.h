@@ -15,25 +15,25 @@ struct HandSwitchMod
 	const std::string name = "HandSwitchMod";
 
 	#pragma region params
-	float base = 0.6F;
-	float min_mod = 0.6F;
-	float max_mod = 1.3F;
+	float min_mod = 0.5F;
+	float max_mod = 1.5F;
+	float mod_base = 0.6F;
 
-	float decay = 0.1F;
+	float decay = 1.0F;
 
 	float prop_buffer = 0.0F;
-	float prop_scaler = 1.87F;
+	float prop_scaler = 0.67F;
 
-	float influence_center = 0.45F;
-	float influence_external = 0.425F;
-	float influence_length = 0.1F;
+	float influence_center = 0.5F;
+	float influence_external = 0.45F;
+	float influence_length = 0.25F;
 
 	float length_cap = 1.0F;
 
 	const std::vector<std::pair<std::string, float*>> _params {
-		{ "base", &base },
 		{ "min_mod", &min_mod },
 		{ "max_mod", &max_mod },
+		{ "mod_base", &mod_base },
 
 		{ "decay", &decay },
 
@@ -138,7 +138,7 @@ struct HandSwitchMod
 	{
 		if (mitvghi.total_taps == 0)
 		{
-			return pmod;
+			return neutral;
 		}
 
 		if (_eml <= 0)
@@ -152,9 +152,9 @@ struct HandSwitchMod
 		float m = (1 + std::clamp(influence_length * _length, 0.F, length_cap)) * (c + x) / std::max(_length, 1);
 
 		_value = prop_scaler * m + prop_buffer;
-		_value = std::max(fastsqrt(_value), .0F);
+		_value = std::max(_value, .0F);
 
-		pmod = std::clamp(_value, min_mod, max_mod);
+		pmod = std::clamp(mod_base + _value, min_mod, max_mod);
 		last_mod = pmod;
 
 		return pmod;
